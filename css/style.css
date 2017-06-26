@@ -1,0 +1,58 @@
+#gif-view, .img, .gif {
+	display: inline-block;
+	font-family: helvetica, arial, times;
+}
+
+p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+
+}
+
+#gif-view {
+	padding-bottom: 20px;
+}
+
+#buttons-view {
+	font-family: helvetica, arial, times;
+}
+
+body {
+	background-color: white;
+}
+
+button, div, form, input {
+    margin: 5px;
+}
+
+form {
+   float:right;
+}
+
+button, #add-gif {
+	background-color: #4aaaa5;
+	color: white;
+	font-weight:bold;
+	border-radius: 4px;
+}
+
+html {
+	position:relative;
+	min-height:100%;
+}
+
+#footer {
+	padding-top: 5px;
+	border-top: 4px solid;
+  	border-top-color:#4aaaa5;
+    bottom: 0px;
+    width: 100%;
+    position: absolute;
+    height: 38px;
+    left: 0px;
+    text-align: center;
+    color: white;
+    background-color: #666;
+}
+
+

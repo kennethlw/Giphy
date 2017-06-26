@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <title>Movie Giphy</title>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Movie Giphy</h1>
+
+    <div id="buttons-view"></div>
+    
+    
+    <form id="gif-form">
+      <label for="gif-input">Add a Movie Here</label>
+      <input type="text" id="gif-input"><br>
+      <input id="add-gif" type="submit" value="Add a Movie">
+    </form>
+    <div id="gif-view"></div>
+
+    <footer id="footer" class="site-footer">
+    <div class="container-fluid">
+      <p class="footer-block">© Copyright 2017 Kenneth Wong</p>
+      </div>
+  </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      // Initial array of movies
+    var topics = ["Top Gun", "Cars", "Fast and the Furious", "Alien", "The Matrix", "Aladdin", "Toy Story", "Cinderella", "Rush Hour", "Terminator", "Pirates of the Caribbean", "Moana", "Beauty and the Beast", "Predator", "The Bourne Identity", "Shawshank Redemption", "Good Will Hunting"];
+
+
+    function wholeShabang() {
+
+    function renderButtons() {
+
+        $("#buttons-view").empty();
+
+        // Looping through the array of movies
+        for (var i = 0; i < topics.length; i++) {
+
+          var a = $("<button>");
+          // Adding a class of gif to our button
+          a.addClass("gif");
+          // Adding a data-attribute
+          a.attr("data-name", topics[i]);
+          // Providing the initial button text
+          a.html(topics[i]);
+          // Adding the button to the buttons-view div
+          $("#buttons-view").append(a);
+
+        }
+        
+      }
+
+
+      //display the original buttons
+
+      renderButtons(); 
+    
+      $("button").on("click", 
+      function displayInfo() {
+      var name = $(this).attr("data-name");
+      var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
+        name + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+      console.log(queryURL);
+
+    
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).done(function(response) {
+
+      
+        var results = response.data;
+      
+        $("#gif-view").html("");
+
+        for (var i = 0; i < results.length; i++) {
+
+          var gifDiv = $("<div class='gif'>");
+          
+          var rating = results[i].rating;
+
+          var p = $("<p>").html("Rating: " + rating);
+
+          var gifImage = $("<img class='gif'>");
+
+          gifImage.attr("src", results[i].images.fixed_height_still.url);
+          gifImage.attr("data-still", results[i].images.fixed_height_still.url);
+          gifImage.attr("data-animate", results[i].images.fixed_height.url);
+          gifImage.attr("data-state", "still");
+
+          gifDiv.prepend(gifImage);
+          gifDiv.prepend("<br>");
+          gifDiv.prepend(p);
+
+          $("#gif-view").prepend(gifDiv);
+          }
+
+          
+        
+        $(".gif").on("click", function() {
+      
+        var state = $(this).attr("data-state");
+        //if the state is still change the img to the animated one and the state to animate     
+        if (state === "still") {
+          $(this).attr("src", $(this).attr("data-animate"));
+          $(this).attr("data-state", "animate");
+        }
+        //if the state is animated, change the img to still and change state to still
+        if (state != "still") {
+          $(this).attr("src", $(this).attr("data-still"));
+          $(this).attr("data-state", "still");
+        }
+
+        });
+
+      });
+
+      });
+
+      $("#add-gif").on("click", function(event) {
+        event.preventDefault();
+        // This line grabs the input from the textbox
+        var gif = $("#gif-input").val().trim();
+
+        // Adding movie from the textbox to our array
+        topics.push(gif);
+
+        for (var i = 0; i < topics.length; i++){
+          console.log(topics[i]);
+        }
+
+        // Calling renderButtons which handles the processing of our movie array
+        //displayInfo();
+        renderButtons();
+        wholeShabang();
+      });
+
+    }
+
+    wholeShabang();
+  
+    
+    
+    </script>
+  </div>
+</body>
+
+</html>
